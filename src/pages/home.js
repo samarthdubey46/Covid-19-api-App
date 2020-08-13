@@ -10,6 +10,8 @@ const App = (props) => {
 	const [search,chanesearch] = useState('')
 	const [data,changedata] = useState({})
 	const [country,changecountry] = useState({})
+	const [name,changename] = useState('')
+	const [email,changeemail] = useState('')
 	const setObjectValue = async (value) => {
 		  try {
 		    const jsonValue = JSON.stringify(value)
@@ -25,10 +27,11 @@ const App = (props) => {
 		    const jsonValue = await AsyncStorage.getItem('current')
 		    if(jsonValue !== null){
 		    	changedata(JSON.parse(jsonValue))
+		    	changename(JSON.parse(jsonValue)['name'])
+		    	changeemail(JSON.parse(jsonValue)['email'])
 		    }
 		  } catch(e) {
 		  	console.log(e)
-		    // read error
 		  }
 		
 		  console.log('Done.')
@@ -80,7 +83,7 @@ const App = (props) => {
 
 	return(
 		<View style={{flex:1}}>
-			<View style={{flex:.3}}>
+			<View style={{flex:.35}}>
 			      <SearchBar
 			      	containerStyle={{backgroundColor:'white'}}
 			      	inputContainerStyle={{backgroundColor:'white'}}
@@ -90,6 +93,8 @@ const App = (props) => {
       			    value={search}
       			  />
       			  <Button title="Search" onPress={() => fetchData(String(search).toLowerCase())} buttonStyle={{alignSelf:'flex-end',paddingHorizontal:40}} />
+      			  <Text style={{fontSize:16,letterSpacing:1,alignSelf:'center'}}>Hello : {data['name']}</Text>
+      			  <Text style={{fontSize:16,letterSpacing:1,alignSelf:'center'}}>{data['email']}</Text>
 		  	</View>
 			<View style={{flex:.95}}>
 				{Object.keys(country).length > 0 && (
